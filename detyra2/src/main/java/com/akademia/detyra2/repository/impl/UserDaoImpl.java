@@ -4,6 +4,8 @@ import com.akademia.detyra2.entity.User;
 import com.akademia.detyra2.mapper.UserMapper;
 import com.akademia.detyra2.repository.UserDAO;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 
@@ -40,6 +42,25 @@ public class UserDaoImpl implements UserDAO {
     public Boolean createUser(User user) {
         var create = jdbcTemplate.update(CREATE_USER_Q, new Object[]{user.getUsername(), user.getEmail(), user.getPassword(), user.getDateCreated(), user.getDateModified()});
         return create == -1 ? false : true;
+    }
+
+    public Integer insertUser(User user) {
+
+        KeyHolder key = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(con->{
+            var ps = con.prepareStatement(
+                    CREATE_USER_Q, new String[]{"id"});
+            ps.setString(1,user.getUsername());
+            ps.setString(2,user.getEmail());
+            ps.setString(3,user.getPassword());
+            ps.setObject(4,user.getDateCreated());
+            ps.setObject(5,user.getDateModified());
+
+            return ps;
+        },key);
+
+        return key.getKey().intValue();
     }
 
     @Override

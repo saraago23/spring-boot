@@ -20,7 +20,7 @@ public class CategoryDaoImpl implements CategoryDAO {
     private static final String GET_CATEGORIES_Q = "SELECT * FROM categories";
     private static final String GET_CATEGORY_BY_ID_Q = "SELECT * FROM categories WHERE id=?";
     private static final String CREATE_CATEGORY_Q = "INSERT INTO categories(name,date_created) VALUES(?,?)";
-
+    private static final String DELETE_CATEGORY_Q = "DELETE FROM categories WHERE id = ?";
     @Override
     public List<Category> getCategories() {
         return jdbcTemplate.query(GET_CATEGORIES_Q, new CategoryMapper());
@@ -32,8 +32,19 @@ public class CategoryDaoImpl implements CategoryDAO {
     }
 
     @Override
+    public Category getOneCategoryById(Long id) {
+        return jdbcTemplate.queryForObject(GET_CATEGORY_BY_ID_Q,new CategoryMapper(),id);
+    }
+
+    @Override
     public Boolean createCategory(Category category) {
         var create = jdbcTemplate.update(CREATE_CATEGORY_Q, new Object[]{category.getName(), category.getDateCreated()});
         return create == -1 ? false : true;
+    }
+
+    @Override
+    public Boolean deleteCategory(Long id) {
+        var delete = jdbcTemplate.update(DELETE_CATEGORY_Q, new Object[]{id});
+        return delete == -1 ? false : true;
     }
 }

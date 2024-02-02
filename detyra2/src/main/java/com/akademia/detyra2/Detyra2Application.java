@@ -18,20 +18,21 @@ import org.springframework.dao.DataIntegrityViolationException;
 import java.time.LocalDate;
 
 @SpringBootApplication
-public class Detyra2Application implements CommandLineRunner {
-    public Detyra2Application(UserService userService, PostService postService, PostCategoryService postCategoryService, CategoryService categoryService) {
+public class Detyra2Application  {
+   /* public Detyra2Application(UserService userService, PostService postService, PostCategoryService postCategoryService, CategoryService categoryService) {
         this.userService = userService;
         this.postService = postService;
         this.postCategoryService = postCategoryService;
         this.categoryService = categoryService;
-    }
+    }*/
 
     public static void main(String[] args) {
         SpringApplication.run(Detyra2Application.class, args);
 
     }
 
-    public static Logger logger = LoggerFactory.getLogger(Detyra2Application.class);
+
+  /*  public static Logger logger = LoggerFactory.getLogger(Detyra2Application.class);
 
     private final UserService userService;
     private final PostService postService;
@@ -58,14 +59,14 @@ public class Detyra2Application implements CommandLineRunner {
             System.out.println("You must first delete all your posts");
         }
         logger.info("User with id {} is updated: {}", 2, userService.updateUser(2L, userService.getUserById(2L)));
-      /*  var p2 = User.builder()
+      *//*  var p2 = User.builder()
                 .username("Player 444")
                 .email("Albania")
                 .password("100kdre")
                 .dateCreated(LocalDate.now())
                 .dateModified(LocalDate.now())
                 .build();
-        logger.info("Inseted player id is {}",userService.createUser(p2));*/
+        logger.info("Inseted player id is {}",userService.createUser(p2));*//*
         User user3=userService.getUserById(3L);
 
         var post = postService.getPostsById(1L);
@@ -106,5 +107,5 @@ public class Detyra2Application implements CommandLineRunner {
         logger.info("New category created: {} ", categoryService.createCategory(category));
 
 
-    }
+    }*/
 }
