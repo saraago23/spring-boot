@@ -1,9 +1,11 @@
 package com.akademia.detyra2.repository.impl;
 
 import com.akademia.detyra2.entity.Post;
+import com.akademia.detyra2.exception.PostNotFoundException;
 import com.akademia.detyra2.mapper.PostMapper;
 import com.akademia.detyra2.repository.PostDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +29,11 @@ public class PostDaoImpl implements PostDAO {
 
     @Override
     public Post getPostsById(Long id) {
+        try {
         return jdbcTemplate.queryForObject(GET_POST_BY_ID_Q, new PostMapper(), id);
+        }catch(EmptyResultDataAccessException ex){
+            throw new PostNotFoundException("Post with id: " + id + " was not found");
+        }
     }
 
     @Override

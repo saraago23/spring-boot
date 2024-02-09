@@ -1,10 +1,9 @@
 package com.akademia.detyra2.controller;
 
 import com.akademia.detyra2.entity.User;
-import com.akademia.detyra2.exception.UserNotFoundException;
+
 import com.akademia.detyra2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +22,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Long userId) {
-        try {
-            return ResponseEntity.ok(userService.getUserById(userId));
-        }catch(EmptyResultDataAccessException ex ){
-            throw new UserNotFoundException ("User with id: " + userId + " was not found");
-        }
+        return ResponseEntity.ok(userService.getUserById(userId));
     }
 
     @PostMapping
@@ -41,7 +36,6 @@ public class UserController {
     }
 
 
-    //TODO
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteUserById(@PathVariable Long id) {
         return ResponseEntity.ok(userService.deleteUser(id));

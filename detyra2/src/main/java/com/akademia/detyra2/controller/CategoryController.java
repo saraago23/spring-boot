@@ -18,20 +18,12 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<List<Category>> getPostCategories() {
-        try {
-            return ResponseEntity.ok(categoryService.getCategories());
-        }catch (NullPointerException ex){
-            throw new CategoryNotFoundException("There are no available categories");
-        }
+        return ResponseEntity.ok(categoryService.getCategories());
     }
 
     @GetMapping("/{categoryId}")
     public ResponseEntity<Category> getPostCategoryById(@PathVariable Long categoryId) {
-        try {
-            return ResponseEntity.ok(categoryService.getOneCategoryById(categoryId));
-        } catch (EmptyResultDataAccessException ex) {
-            throw new CategoryNotFoundException("Category with id: " + categoryId + " was not found");
-        }
+        return ResponseEntity.ok(categoryService.getOneCategoryById(categoryId));
     }
 
     @PostMapping

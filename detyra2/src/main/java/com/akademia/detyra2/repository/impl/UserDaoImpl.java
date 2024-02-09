@@ -1,8 +1,10 @@
 package com.akademia.detyra2.repository.impl;
 
 import com.akademia.detyra2.entity.User;
+import com.akademia.detyra2.exception.UserNotFoundException;
 import com.akademia.detyra2.mapper.UserMapper;
 import com.akademia.detyra2.repository.UserDAO;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -35,7 +37,11 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public User getUserById(Long id) {
-        return jdbcTemplate.queryForObject(GET_USER_BY_ID_Q, new UserMapper(), id);
+        try {
+            return jdbcTemplate.queryForObject(GET_USER_BY_ID_Q, new UserMapper(), id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new UserNotFoundException("User with id: " + id + " was not found");
+        }
     }
 
     @Override
@@ -48,17 +54,17 @@ public class UserDaoImpl implements UserDAO {
 
         KeyHolder key = new GeneratedKeyHolder();
 
-        jdbcTemplate.update(con->{
+        jdbcTemplate.update(con -> {
             var ps = con.prepareStatement(
                     CREATE_USER_Q, new String[]{"id"});
-            ps.setString(1,user.getUsername());
-            ps.setString(2,user.getEmail());
-            ps.setString(3,user.getPassword());
-            ps.setObject(4,user.getDateCreated());
-            ps.setObject(5,user.getDateModified());
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.setObject(4, user.getDateCreated());
+            ps.setObject(5, user.getDateModified());
 
             return ps;
-        },key);
+        }, key);
 
         return key.getKey().intValue();
     }

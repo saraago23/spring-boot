@@ -23,11 +23,7 @@ public class PostController {
 
     @GetMapping("/{postId}/post")
     public ResponseEntity<Post> getPostById(@PathVariable Long postId) {
-        try {
-            return ResponseEntity.ok(postService.getPostsById(postId));
-        }catch(EmptyResultDataAccessException ex){
-            throw new PostNotFoundException("Post with id: " + postId + " was not found");
-        }
+        return ResponseEntity.ok(postService.getPostsById(postId));
     }
 
     //TODO
