@@ -1,0 +1,63 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+<nav>
+    <div>
+        <h2>Akademia</h2>
+    </div>
+    <ul>
+        <li>
+            <a th:href="@{/cars}">Cars</a>
+        </li>
+        <li>
+            <a th:href="@{/engines}">Engines</a>
+        </li>
+        <li>
+            <a th:href="@{/wheels}">Wheels</a>
+    </ul>
+</nav>
+<!-- Code block header starts -->
+<div>
+    <h2>Car Registration</h2>
+
+    <form th:action="@{/cars}" th:object="${car}" th:method="POST">
+
+        <input th:field="*{id}" type="hidden"/>
+        <input th:field="*{carName}" type="text" placeholder="Car Name"/>
+        <input th:field="*{fromYear}" type="number" placeholder="From Year"/>
+        <input th:field="*{toYear}" type="number" placeholder="To Year"/>
+
+        <div>
+            <select th:field="*{engineId.engineType}">-->
+                <option th:each="engineType : ${engineTypeMap.entrySet()}" th:text="${engineType.key}" ,
+                        th:value="${engineType.value}"></option>
+            </select>
+            <!--<select th:field="*{engineId.engineType}" name="engineType">
+                <option disabled selected>Select car engine type</option>
+                <option value="Gasoline">Gasoline</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric</option>
+            </select>-->
+            <select th:field="*{wheelsId.wheelType}">-->
+                <option th:each="wheelType : ${wheelTypeMap.entrySet()}" th:text="${wheelType.key}",
+                        th:value="${wheelType.value}"></option>
+            </select>
+          <!--  <select th:field="*{wheelsId.wheelType}" name="wheelType">
+                <option disabled selected>Select car wheels type</option>
+                <option value="Steel">Steel</option>
+                <option value="Alloy">Alloy</option>
+            </select>-->
+        </div>
+
+        <div>
+            <button th:type="submit">Submit</button>
+        </div>
+    </form>
+    <!-- Code block form end -->
+</div>
+</body>

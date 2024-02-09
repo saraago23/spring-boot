@@ -1,0 +1,76 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<nav>
+    <div>
+        <h2>Akademia</h2>
+    </div>
+    <ul>
+        <li>
+            <a th:href="@{/cars}">Cars</a>
+
+        </li>
+        <li>
+            <a th:href="@{/engines}">Engines</a>
+        </li>
+        <li>
+            <a th:href="@{/wheels}">Wheels</a>
+    </ul>
+</nav>
+<div>
+
+    <div>
+        <h2>CARS</h2>
+        <button>
+            <a th:href="@{/cars/edit}">Add Car</a>
+        </button>
+
+    </div>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>From year</th>
+        <th>To Year</th>
+        <!--<th th:text="${c.type}">Type</th>-->
+        <th>Engine Power</th>
+        <th>Engine Type</th>
+        <th>Wheels Size</th>
+        <th>Wheels Type</th>
+        <th>
+            <span>Edit</span>
+        </th>
+        <th>
+            <span>Delete</span>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c: ${cars}">
+        <td th:text="${c.id}"></td>
+        <td th:text="${c.carName}"></td>
+        <td th:text="${c.fromYear}"></td>
+        <td th:text="${c.toYear}"></td>
+        <!-- <td>subcompact</td>-->
+        <td th:text="${c.engineId.enginePower}"></td>
+        <td th:text="${c.engineId.engineType}"></td>
+        <td th:text="${c.wheelsId.size}"></td>
+        <td th:text="${c.wheelsId.wheelType}"></td>
+        <td class="">
+            <a th:href="@{/cars/edit?car={carId}(carId=${c.id})}">Edit</a>
+        </td>
+        <td>
+            <a th:href="@{/cars/{carId}/delete(carId=${c.id})}">Delete</a>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+</body>
