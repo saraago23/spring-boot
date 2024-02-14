@@ -1,8 +1,10 @@
 package com.detyra.mvc.repository.impl;
 
 import com.detyra.mvc.dto.Wheel;
+import com.detyra.mvc.exception.WheelNotFoundException;
 import com.detyra.mvc.repository.WheelDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -10,6 +12,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 public class WheelDAOImpl implements WheelDAO {
     @Autowired
@@ -23,13 +26,16 @@ public class WheelDAOImpl implements WheelDAO {
 
     @Override
     public List<Wheel> getWheels() {
-        return jdbcTemplate.query(GET_WHEELS_Q,new BeanPropertyRowMapper<>(Wheel.class));
+        return jdbcTemplate.query(GET_WHEELS_Q, new BeanPropertyRowMapper<>(Wheel.class));
     }
 
     @Override
     public Wheel getWheelById(Integer id) {
-        return jdbcTemplate.queryForObject(GET_WHEEL_BY_ID_Q,new BeanPropertyRowMapper<>(Wheel.class),id);
-
+        try {
+            return jdbcTemplate.queryForObject(GET_WHEEL_BY_ID_Q, new BeanPropertyRowMapper<>(Wheel.class), id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new WheelNotFoundException("No wheel with id: " + id + " was found");
+        }
     }
 
     @Override
@@ -49,7 +55,7 @@ public class WheelDAOImpl implements WheelDAO {
 
     @Override
     public Boolean updateWheel(Wheel wheel) {
-        var update = jdbcTemplate.update(UPDATE_WHEEL_Q, new Object[]{wheel.getSize(),wheel.getWheelType(),wheel.getId()});
+        var update = jdbcTemplate.update(UPDATE_WHEEL_Q, new Object[]{wheel.getSize(), wheel.getWheelType(), wheel.getId()});
         return update == -1 ? false : true;
     }
 

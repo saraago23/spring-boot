@@ -8,6 +8,7 @@ public interface CarService {
     List<Car> getCars();
     Car getCarById(Integer id);
     Integer insertCar(Car car);
+   // Boolean insertTheCar(Car car);
     Boolean updateCar(Car car);
     Boolean deleteCar(Integer id);
 }

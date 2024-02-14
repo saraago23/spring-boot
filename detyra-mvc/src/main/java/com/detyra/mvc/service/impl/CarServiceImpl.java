@@ -28,6 +28,11 @@ public class CarServiceImpl implements CarService {
         return carDAO.insertCar(car);
     }
 
+ /*   @Override
+    public Boolean insertTheCar(Car car) {
+        return carDAO.insertTheCar(car);
+    }*/
+
     @Override
     public Boolean updateCar(Car car) {
         return carDAO.updateCar(car);

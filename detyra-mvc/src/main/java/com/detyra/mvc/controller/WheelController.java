@@ -2,6 +2,7 @@ package com.detyra.mvc.controller;
 
 import com.detyra.mvc.dto.Wheel;
 import com.detyra.mvc.service.WheelService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,11 +46,11 @@ public class WheelController {
     }
 
     @PostMapping
-    public String insertEngine(@ModelAttribute("wheel") Wheel wheel, BindingResult result) {
-       /* if(result.hasErrors()){
+    public String insertWheel(@ModelAttribute("wheel") @Valid Wheel wheel, BindingResult result) {
+        if(result.hasErrors()){
             System.err.println("hass errors");
-            return "plain/car-view-form-plain";
-        }*/
+            return "plain/wheels-view-form-plain";
+        }
         if (wheel.getId() == null)
             wheelService.insertWheel(wheel);
         else
@@ -59,7 +60,7 @@ public class WheelController {
 
 
     @GetMapping("/{wheelId}/delete")
-    public String deleteEngine(@PathVariable Integer wheelId) {
+    public String deleteWheel(@PathVariable Integer wheelId) {
        wheelService.deleteWheel(wheelId);
         return "redirect:/wheels";
     }

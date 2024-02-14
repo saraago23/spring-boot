@@ -25,11 +25,19 @@
 
     <form th:action="@{/wheels}" th:object="${wheel}" th:method="POST">
 
-        <input  th:field="*{id}" type="hidden"/>
-        <input th:field="*{wheelType}" type="text" placeholder="Wheel Type "/>
-        <input th:field="*{size}" type="text" placeholder="Wheel Size" />
+        <input th:field="*{id}" type="hidden"/>
         <div>
-            <button th:type="submit"  >Submit</button>
+        <input th:field="*{wheelType}" type="text" placeholder="Wheel Type "/>
+            <span th:if="${#fields.hasErrors('wheelType')}" th:errors="*{wheelType}" style="color:red"></span>
+
+        </div>
+        <div>
+        <input th:field="*{size}" type="text" placeholder="Wheel Size"/>
+            <span th:if="${#fields.hasErrors('size')}" th:errors="*{size}" style="color:red"></span>
+
+        </div>
+        <div>
+            <button th:type="submit">Submit</button>
         </div>
     </form>
     <!-- Code block form end -->

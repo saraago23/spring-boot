@@ -26,10 +26,18 @@
     <form th:action="@{/engines}" th:object="${engine}" th:method="POST">
 
         <input  th:field="*{id}" type="hidden"/>
-        <input  th:field="*{engineType}" type="text" placeholder="Engine Type "/>
-        <input  th:field="*{enginePower}" type="text" placeholder="Engine Power" />
         <div>
-            <button th:type="submit" >Submit</button>
+        <input  th:field="*{engineType}" type="text" placeholder="Engine Type "/>
+            <span th:if="${#fields.hasErrors('engineType')}" th:errors="*{engineType}" style="color:red"></span>
+
+        </div>
+        <div>
+        <input  th:field="*{enginePower}" type="text" placeholder="Engine Power" />
+            <span th:if="${#fields.hasErrors('enginePower')}" th:errors="*{enginePower}" style="color:red"></span>
+
+        </div>
+        <div>
+            <button th:type="submit">Submit</button>
         </div>
     </form>
     <!-- Code block form end -->

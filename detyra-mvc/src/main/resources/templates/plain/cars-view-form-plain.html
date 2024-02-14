@@ -28,30 +28,47 @@
     <form th:action="@{/cars}" th:object="${car}" th:method="POST">
 
         <input th:field="*{id}" type="hidden"/>
-        <input th:field="*{carName}" type="text" placeholder="Car Name"/>
-        <input th:field="*{fromYear}" type="number" placeholder="From Year"/>
+        <!--
+                <input th:field="*{carName}" type="text" placeholder="Car Name"/>
+        -->
+        <div>
+            <input th:field="*{carName}" type="text" placeholder="Car Name"/>
+            <span th:if="${#fields.hasErrors('carName')}" th:errors="*{carName}" style="color:red"></span>
+        </div>
+        <div>
+            <input th:field="*{fromYear}" type="number" placeholder="From Year"/>
+            <span th:if="${#fields.hasErrors('fromYear')}" th:errors="*{fromYear}" style="color:red"></span>
+
+        </div>
+        <div>
         <input th:field="*{toYear}" type="number" placeholder="To Year"/>
+            <span th:if="${#fields.hasErrors('toYear')}" th:errors="*{toYear}" style="color:red"></span>
+
+        </div>
+        <!--<input th:field="*{engineId.id}" type="hidden"/>
+        <input th:field="*{wheelsId.id}" type="hidden"/>-->
 
         <div>
-            <select th:field="*{engineId.engineType}">-->
-                <option th:each="engineType : ${engineTypeMap.entrySet()}" th:text="${engineType.key}" ,
-                        th:value="${engineType.value}"></option>
+            <select th:field="*{engineId.id}">
+                <option th:each="engineType : ${engineTypeMap.entrySet()}" th:text="${engineType.value}" ,
+                        th:value="${engineType.key}"></option>
             </select>
             <!--<select th:field="*{engineId.engineType}" name="engineType">
                 <option disabled selected>Select car engine type</option>
                 <option value="Gasoline">Gasoline</option>
                 <option value="Diesel">Diesel</option>
                 <option value="Electric">Electric</option>
-            </select>-->
-            <select th:field="*{wheelsId.wheelType}">-->
-                <option th:each="wheelType : ${wheelTypeMap.entrySet()}" th:text="${wheelType.key}",
-                        th:value="${wheelType.value}"></option>
+            </select>--></div>
+        <div>
+            <select th:field="*{wheelsId.id}">
+                <option th:each="wheelType : ${wheelTypeMap.entrySet()}" th:text="${wheelType.value}" ,
+                        th:value="${wheelType.key}"></option>
             </select>
-          <!--  <select th:field="*{wheelsId.wheelType}" name="wheelType">
-                <option disabled selected>Select car wheels type</option>
-                <option value="Steel">Steel</option>
-                <option value="Alloy">Alloy</option>
-            </select>-->
+            <!--  <select th:field="*{wheelsId.wheelType}" name="wheelType">
+                  <option disabled selected>Select car wheels type</option>
+                  <option value="Steel">Steel</option>
+                  <option value="Alloy">Alloy</option>
+              </select>-->
         </div>
 
         <div>

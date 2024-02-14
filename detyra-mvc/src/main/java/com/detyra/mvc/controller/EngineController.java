@@ -3,6 +3,7 @@ package com.detyra.mvc.controller;
 
 import com.detyra.mvc.dto.Engine;
 import com.detyra.mvc.service.EngineService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,11 +47,11 @@ public class EngineController {
     }
 
     @PostMapping
-    public String insertEngine(@ModelAttribute("engine") Engine engine, BindingResult result) {
-       /* if(result.hasErrors()){
+    public String insertEngine(@ModelAttribute("engine") @Valid Engine engine, BindingResult result) {
+        if(result.hasErrors()){
             System.err.println("hass errors");
-            return "plain/car-view-form-plain";
-        }*/
+            return "plain/engine-view-form-plain";
+        }
         if (engine.getId() == null)
             engineService.insertEngine(engine);
         else

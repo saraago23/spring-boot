@@ -1,8 +1,11 @@
 package com.detyra.mvc.repository.impl;
 
 import com.detyra.mvc.dto.Engine;
+import com.detyra.mvc.exception.CarNotFoundException;
+import com.detyra.mvc.exception.EngineNotFoundException;
 import com.detyra.mvc.repository.EngineDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -28,7 +31,11 @@ public class EngineDAOImpl implements EngineDAO {
 
     @Override
     public Engine getEngineById(Integer id) {
-        return jdbcTemplate.queryForObject(GET_ENGINE_BY_ID_Q,new BeanPropertyRowMapper<>(Engine.class),id);
+        try {
+            return jdbcTemplate.queryForObject(GET_ENGINE_BY_ID_Q, new BeanPropertyRowMapper<>(Engine.class), id);
+        }catch (EmptyResultDataAccessException e){
+            throw new EngineNotFoundException("No engine with id: " + id + " was found");
+        }
     }
 
     @Override
