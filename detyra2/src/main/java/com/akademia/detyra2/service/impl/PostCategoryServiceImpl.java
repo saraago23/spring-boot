@@ -1,23 +1,38 @@
 package com.akademia.detyra2.service.impl;
 
 import com.akademia.detyra2.entity.PostCategory;
-import com.akademia.detyra2.repository.PostCategoryDAO;
+import com.akademia.detyra2.repository.impl.PostCategoryImpl;
+import com.akademia.detyra2.service.BaseService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.akademia.detyra2.service.PostCategoryService;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
-public class PostCategoryServiceImpl implements PostCategoryService {
+@Transactional
+public class PostCategoryServiceImpl implements BaseService<PostCategory, Integer> {
     @Autowired
-    private PostCategoryDAO postCategoryDAO;
+    private PostCategoryImpl postCategoryDao;
 
     @Override
-    public PostCategory getPostGategoryByPostId(Long postId) {
-        return postCategoryDAO.getPostGategoryByPostId(postId);
+    public PostCategory save(PostCategory postCategory) throws Exception {
+        return postCategoryDao.save(postCategory);
     }
 
     @Override
-    public PostCategory getPostCategoryByPostIdAndCategoryId(Long postId, Long categoryId) {
-        return postCategoryDAO.getPostCategoryByPostIdAndCategoryId(postId, categoryId);
+    public Optional<PostCategory> findById(Integer id) throws Exception {
+        return postCategoryDao.findById(id);
+    }
+
+    @Override
+    public void deleteById(Integer id) throws Exception {
+        postCategoryDao.deleteById(id);
+    }
+
+    @Override
+    public List<PostCategory> showAll() throws Exception {
+        return postCategoryDao.showAll();
     }
 }

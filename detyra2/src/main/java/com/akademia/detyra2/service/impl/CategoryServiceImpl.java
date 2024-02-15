@@ -1,41 +1,38 @@
 package com.akademia.detyra2.service.impl;
 
 import com.akademia.detyra2.entity.Category;
-import com.akademia.detyra2.repository.CategoryDAO;
+import com.akademia.detyra2.repository.impl.CategoryDaoImpl;
+import com.akademia.detyra2.service.BaseService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.akademia.detyra2.service.CategoryService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-
-public class CategoryServiceImpl implements CategoryService {
+@Transactional
+public class CategoryServiceImpl implements BaseService<Category, Integer> {
     @Autowired
-    private CategoryDAO categoryDAO;
+    private CategoryDaoImpl categoryDao;
 
     @Override
-    public List<Category> getCategories() {
-        return categoryDAO.getCategories();
+    public Category save(Category category) throws Exception {
+        return categoryDao.save(category);
     }
 
     @Override
-    public List<Category> getCategoryById(Long id) {
-        return categoryDAO.getCategoryById(id);
+    public Optional<Category> findById(Integer id) throws Exception {
+        return categoryDao.findById(id);
     }
 
     @Override
-    public Category getOneCategoryById(Long id) {
-        return categoryDAO.getOneCategoryById(id);
+    public void deleteById(Integer id) throws Exception {
+        categoryDao.deleteById(id);
     }
 
     @Override
-    public Boolean createCategory(Category category) {
-        return categoryDAO.createCategory(category);
-    }
-
-    @Override
-    public Boolean deleteCategory(Long id) {
-        return categoryDAO.deleteCategory(id);
+    public List<Category> showAll() throws Exception {
+        return categoryDao.showAll();
     }
 }

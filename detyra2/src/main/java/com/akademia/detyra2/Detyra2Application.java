@@ -1,21 +1,7 @@
 package com.akademia.detyra2;
 
-import com.akademia.detyra2.entity.Category;
-import com.akademia.detyra2.entity.Post;
-import com.akademia.detyra2.entity.User;
-import com.akademia.detyra2.service.CategoryService;
-import com.akademia.detyra2.service.PostCategoryService;
-import com.akademia.detyra2.service.PostService;
-import com.akademia.detyra2.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.dao.DataIntegrityViolationException;
-
-import java.time.LocalDate;
 
 @SpringBootApplication
 public class Detyra2Application  {

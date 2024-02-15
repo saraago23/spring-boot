@@ -1,9 +1,14 @@
 package com.akademia.detyra2.repository.impl;
 
 import com.akademia.detyra2.entity.Category;
+import com.akademia.detyra2.entity.PostCategory;
 import com.akademia.detyra2.exception.CategoryNotFoundException;
 import com.akademia.detyra2.mapper.CategoryMapper;
-import com.akademia.detyra2.repository.CategoryDAO;
+import com.akademia.detyra2.repository.BaseDAO;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,50 +16,38 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 
-public class CategoryDaoImpl implements CategoryDAO {
+public class CategoryDaoImpl implements BaseDAO<Category, Integer> {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    private static final String GET_CATEGORIES_Q = "SELECT * FROM categories";
-    private static final String GET_CATEGORY_BY_ID_Q = "SELECT * FROM categories WHERE id=?";
-    private static final String CREATE_CATEGORY_Q = "INSERT INTO categories(name,date_created) VALUES(?,?)";
-    private static final String DELETE_CATEGORY_Q = "DELETE FROM categories WHERE id = ?";
+    private static Logger logger = LoggerFactory.getLogger(CategoryDaoImpl.class);
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
-    public List<Category> getCategories() {
-        try {
-            return jdbcTemplate.query(GET_CATEGORIES_Q, new CategoryMapper());
-        } catch (NullPointerException ex) {
-            throw new CategoryNotFoundException("There are no available categories");
-        }
+    public Category save(Category category) throws Exception {
+        return em.merge(category);
     }
 
     @Override
-    public List<Category> getCategoryById(Long id) {
+    public Optional<Category> findById(Integer id) throws Exception {
         try {
-            return jdbcTemplate.query(GET_CATEGORY_BY_ID_Q, new CategoryMapper(), id);
-        } catch (EmptyResultDataAccessException ex) {
+            var entity = em.find(Category.class, id);
+            return entity != null ? Optional.of(entity) : Optional.empty();
+        }catch (EmptyResultDataAccessException ex){
             throw new CategoryNotFoundException("Category with id: " + id + " was not found");
         }
     }
 
     @Override
-    public Category getOneCategoryById(Long id) {
-        return jdbcTemplate.queryForObject(GET_CATEGORY_BY_ID_Q, new CategoryMapper(), id);
+    public void deleteById(Integer id) throws Exception {
+      findById(id).ifPresentOrElse(e->em.remove(e),()->logger.warn("Failed to delete category with ID: " + id));
     }
 
     @Override
-    public Boolean createCategory(Category category) {
-        var create = jdbcTemplate.update(CREATE_CATEGORY_Q, new Object[]{category.getName(), category.getDateCreated()});
-        return create == -1 ? false : true;
-    }
-
-    @Override
-    public Boolean deleteCategory(Long id) {
-        var delete = jdbcTemplate.update(DELETE_CATEGORY_Q, new Object[]{id});
-        return delete == -1 ? false : true;
+    public List<Category> showAll() throws Exception {
+        return em.createNamedQuery(Category.GET_ALL).getResultList();
     }
 }

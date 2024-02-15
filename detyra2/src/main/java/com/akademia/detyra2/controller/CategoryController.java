@@ -1,39 +1,39 @@
 package com.akademia.detyra2.controller;
 
 import com.akademia.detyra2.entity.Category;
-import com.akademia.detyra2.exception.CategoryNotFoundException;
-import com.akademia.detyra2.service.CategoryService;
+import com.akademia.detyra2.service.impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
     @Autowired
-    private CategoryService categoryService;
+    private CategoryServiceImpl categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> getPostCategories() {
-        return ResponseEntity.ok(categoryService.getCategories());
+    public ResponseEntity<List<Category>> getAllCategories() throws Exception {
+        return ResponseEntity.ok(categoryService.showAll());
     }
 
-    @GetMapping("/{categoryId}")
-    public ResponseEntity<Category> getPostCategoryById(@PathVariable Long categoryId) {
-        return ResponseEntity.ok(categoryService.getOneCategoryById(categoryId));
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Category>> getCategoryById(@PathVariable Integer id) throws Exception {
+        return ResponseEntity.ok(categoryService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Boolean> addCategory(@RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.createCategory(category));
+    public ResponseEntity<Category> addCategory(@RequestBody Category category) throws Exception {
+        return ResponseEntity.ok(categoryService.save(category));
     }
 
-    @DeleteMapping("/blog/categories/{categoryId}")
-    public ResponseEntity<Boolean> deleteCategory(@PathVariable Long categoryId) {
-        return ResponseEntity.ok(categoryService.deleteCategory(categoryId));
+    @DeleteMapping("/blog/categories/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable Integer id) throws Exception {
+        categoryService.deleteById(id);
+        return ResponseEntity.ok("Deleted");
     }
 
 }

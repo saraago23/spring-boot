@@ -1,42 +1,42 @@
 package com.akademia.detyra2.controller;
 
 import com.akademia.detyra2.entity.Post;
-import com.akademia.detyra2.exception.PostNotFoundException;
-import com.akademia.detyra2.service.PostService;
+import com.akademia.detyra2.service.impl.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/posts")
 public class PostController {
     @Autowired
-    private PostService postService;
+    private PostServiceImpl postService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<Post>> getAllPosts(@PathVariable Long userId) {
-        return ResponseEntity.ok(postService.getPostsByUserId(userId));
+    @GetMapping()
+    public ResponseEntity<List<Post>> getAllPosts() throws Exception {
+        return ResponseEntity.ok(postService.showAll());
     }
 
-    @GetMapping("/{postId}/post")
-    public ResponseEntity<Post> getPostById(@PathVariable Long postId) {
-        return ResponseEntity.ok(postService.getPostsById(postId));
+    @GetMapping("/{id}/posts")
+    public ResponseEntity<Optional<Post>> getPostById(@PathVariable Integer id) throws Exception {
+        return ResponseEntity.ok(postService.findById(id));
     }
 
-    //TODO
-   /* @GetMapping("/post/user/{userId}")
-    public ResponseEntity<UserPostDTO> getPostByUserId(@PathVariable Long userId) {
 
-    }*/
-    //TODO
-   /* @PostMapping("/post/user/{id}")
-    public ResponseEntity<Boolean> addPost(@PathVariable Long id, @RequestBody Post post) {
+    @PostMapping("/posts/user/{id}")
+    public ResponseEntity<Post> addPost(@PathVariable Long id, @RequestBody Post post) throws Exception {
         post.setId(Math.toIntExact(id));
-        return ResponseEntity.ok(postService.createPost(post));
-    }*/
+        return ResponseEntity.ok(postService.save(post));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePostById(@PathVariable Integer id) throws Exception {
+        postService.deleteById(id);
+        return ResponseEntity.ok("Deleted");
+    }
 
 
 }

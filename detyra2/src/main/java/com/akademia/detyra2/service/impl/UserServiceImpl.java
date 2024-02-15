@@ -1,47 +1,44 @@
 package com.akademia.detyra2.service.impl;
 
 import com.akademia.detyra2.entity.User;
-import com.akademia.detyra2.repository.UserDAO;
+
+import com.akademia.detyra2.repository.impl.UserDaoImpl;
+import com.akademia.detyra2.service.BaseService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
-import com.akademia.detyra2.service.UserService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Transactional
+public class UserServiceImpl implements BaseService<User, Integer> {
 
-public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDAO userDAO;
+    private UserDaoImpl userDao;
+
 
     @Override
-    public List<User> getUsers() {
-        return userDAO.getUsers();
+    public User save(User user) throws Exception {
+        return userDao.save(user);
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userDAO.getUserById(id);
+    public Optional<User> findById(Integer id) throws Exception {
+        return userDao.findById(id);
     }
 
     @Override
-    public Boolean createUser(User user) {
-        return userDAO.createUser(user);
+    public void deleteById(Integer id) throws Exception {
+        userDao.deleteById(id);
     }
 
     @Override
-    public Boolean updateUser(Long id, User user) {
-        return userDAO.updateUser(id,user);
-    }
-
-    @Override
-    public Boolean deleteUser(Long id) {
-        return userDAO.deleteUser(id);
-    }
-
-    @Override
-    public Integer insertUser(User user) {
-        return userDAO.insertUser(user);
+    public List<User> showAll() throws Exception {
+        return userDao.showAll();
     }
 }

@@ -2,43 +2,45 @@ package com.akademia.detyra2.controller;
 
 import com.akademia.detyra2.entity.User;
 
-import com.akademia.detyra2.service.UserService;
+import com.akademia.detyra2.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.ok(userService.getUsers());
+    public ResponseEntity<List<User>> getUsers() throws Exception {
+        return ResponseEntity.ok(userService.showAll());
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.getUserById(userId));
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<User>> getUserById(@PathVariable Integer id) throws Exception {
+        return ResponseEntity.ok(userService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Integer> addUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.insertUser(user));
+    public ResponseEntity<User> addUser(@RequestBody User user) throws Exception {
+        return ResponseEntity.ok(userService.save(user));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Boolean> updateUser(@PathVariable Long id, @RequestBody User user) {
-        return ResponseEntity.ok(userService.updateUser(id, user));
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) throws Exception {
+        return ResponseEntity.ok(userService.save(user));
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.deleteUser(id));
+    public ResponseEntity<String> deleteUserById(@PathVariable Integer id) throws Exception {
+        userService.deleteById(id);
+        return ResponseEntity.ok("Deleted");
     }
 
 }
