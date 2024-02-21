@@ -46,7 +46,8 @@ public class DetyraJpaApplication implements CommandLineRunner {
        // logger.info("these are the employees with salary greater than: {} : {}",5000,employeeRepository.getEmployeeWithSalaryGreaterThan(5000));
        // logger.info("these are the employees with {} as title : {}", "senior engineer", employeeRepository.getAllEmployeesWithTitle("senior engineer"));
         //logger.info("{}",salaryRepository.getLatestSalaryForAllEmployees());
-        logger.info("These are the avarage salaries : {}", departmentEmployeeRepository.getAvarageSalaryPerDepartment());
+        // logger.info("These are the avarage salaries : {}", departmentEmployeeRepository.getAvarageSalaryPerDepartment());
+        logger.info("For the {} department, there are {} employees","Marketing",employeeRepository.getEmployeesNumberPerDepartment("Marketing"));
     }
 
 }

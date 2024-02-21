@@ -22,15 +22,16 @@ public class SalaryEntity {
     @MapsId("empNo")
     @JoinColumn(name="emp_no",referencedColumnName = "emp_no")
     private EmployeeEntity empNo;
-    private Double salary;
+    private Integer salary;
     private LocalDate toDate;
 
-    public SalaryEntity(EmployeeEntity empNo, Double salary, LocalDate toDate) {
+    public SalaryEntity(EmployeeEntity empNo, Integer salary, LocalDate toDate) {
         this.empNo = empNo;
         this.salary = salary;
         this.toDate = toDate;
         this.salaryEntityId = new SalaryEntityId(empNo.getEmpNo(), toDate);
     }
+
 
     @Override
     public String toString() {
