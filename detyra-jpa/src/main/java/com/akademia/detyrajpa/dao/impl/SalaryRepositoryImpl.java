@@ -33,8 +33,6 @@ public class SalaryRepositoryImpl extends BaseDaoImpl<SalaryEntity, SalaryEntity
     @Override
     public List<SalaryEntity> getLatestSalaryForAllEmployees() {
         TypedQuery<SalaryEntity> query = em.createQuery(" SELECT s.empNo, s.salary, MAX(s.salaryEntityId.fromDate) FROM SalaryEntity s WHERE (s.empNo, s.salaryEntityId.fromDate) IN  (SELECT s2.empNo, MAX(s2.salaryEntityId.fromDate)  FROM SalaryEntity s2 GROUP BY s2.empNo) GROUP BY s.empNo, s.salary", SalaryEntity.class);
-        query.setFirstResult(0);
-        query.setMaxResults(20);
         return query.getResultList();
 
     }

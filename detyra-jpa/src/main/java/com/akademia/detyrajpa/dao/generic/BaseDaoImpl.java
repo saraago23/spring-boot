@@ -47,7 +47,11 @@ public abstract class BaseDaoImpl<T extends Object, I extends Serializable> impl
     }
 
     @Override
-    public List<T> findAll(int pageNumber,int pageSize,String sortBy, boolean asc) throws Exception {
+    public List<T> findAll(Integer pageNumber,Integer pageSize,String sortBy, boolean asc) throws Exception {
+        if(pageNumber==null||pageSize == null){
+            pageNumber=0;
+            pageSize=10;
+        }
         CriteriaBuilder cb = getEm().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery(type);
         Root root = cq.from(type);
@@ -56,7 +60,7 @@ public abstract class BaseDaoImpl<T extends Object, I extends Serializable> impl
         else order = cb.desc(root.get(sortBy));
         cq.select(root).orderBy(order);
         TypedQuery query = getEm().createQuery(cq);
-        int first = (pageNumber-1)* pageSize;
+        int first = pageNumber* pageSize;
         query.setFirstResult(first);
         query.setMaxResults(pageSize);
         return query.getResultList();

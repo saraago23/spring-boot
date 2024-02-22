@@ -41,8 +41,6 @@ public class DepartmentEmployeeRepositoryImpl extends BaseDaoImpl<DepartmentEmpl
                         "FROM DepartmentEmployeeEntity de JOIN DepartmentEntity d ON de.departmentEmployeeEntityId.deptNo=d.deptNo " +
                         "JOIN SalaryEntity s ON de.departmentEmployeeEntityId.empNo = s.salaryEntityId.empNo " +
                         "GROUP BY de.departmentEmployeeEntityId.deptNo,d.deptName",DepartmentEmployeeDepartmentSalary.class);
-        query.setFirstResult(0);
-        query.setMaxResults(20);
         return query.getResultList();
     }
 }

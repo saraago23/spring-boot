@@ -36,7 +36,7 @@ public class DetyraJpaApplication implements CommandLineRunner {
     @Transactional
     @Override
     public void run(String... args) throws Exception {
-        // logger.info("these are the employees: {}",employeeRepository.findAll(5,5,"firstName",true));
+         logger.info("these are the employees: {}",employeeRepository.findAll(1,10,"firstName",true));
      //   logger.info("these are the salaries: {}", salaryRepository.findAll(10, 10, "salary", false));
     //    SalaryEntityId salaryEntityId = new SalaryEntityId(10001, LocalDate.of(1986, 6, 26));
       //  logger.info("result: {} ", salaryRepository.findById(salaryEntityId));
@@ -47,7 +47,7 @@ public class DetyraJpaApplication implements CommandLineRunner {
        // logger.info("these are the employees with {} as title : {}", "senior engineer", employeeRepository.getAllEmployeesWithTitle("senior engineer"));
         //logger.info("{}",salaryRepository.getLatestSalaryForAllEmployees());
         // logger.info("These are the avarage salaries : {}", departmentEmployeeRepository.getAvarageSalaryPerDepartment());
-        logger.info("For the {} department, there are {} employees","Marketing",employeeRepository.getEmployeesNumberPerDepartment("Marketing"));
+        //logger.info("For the {} department, there are {} employees","Marketing",employeeRepository.getEmployeesNumberPerDepartment("Marketing"));
     }
 
 }
